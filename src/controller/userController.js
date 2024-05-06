@@ -4,7 +4,7 @@ import { userService } from '../service/userService.js'
 
 const signUp = async (req, res, next) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const newUser = await userService.signUp(req.body);
     res.status(201).send(newUser)
   } catch (e) {
@@ -14,7 +14,7 @@ const signUp = async (req, res, next) => {
 }
 const signIn = async (req, res, next) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const loginUser = await userService.signIn(req.body);
     res.cookie("token", loginUser.token, {
       httpOnly: true,

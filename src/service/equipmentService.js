@@ -1,7 +1,7 @@
 import { equipmentModel } from '../model/equipmentModel.js'
 const createNew = async (reqBody) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const newEquipment = await equipmentModel.createNew(reqBody);
     return newEquipment
   } catch (e) {
@@ -10,7 +10,7 @@ const createNew = async (reqBody) => {
 }
 const update = async (reqBody, id) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const newEquipment = await equipmentModel.update(reqBody, id);
     return newEquipment
   } catch (e) {

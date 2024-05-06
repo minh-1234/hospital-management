@@ -2,7 +2,7 @@
 import { medicineService } from '../service/medicineService.js'
 const createNew = async (req, res, next) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const newmedicine = await medicineService.createNew(req.body);
     res.status(201).json({ result: 'Đã tạo thành công medicine' })
   } catch (e) {
@@ -13,7 +13,7 @@ const createNew = async (req, res, next) => {
 const getAllMedicines = async (req, res, next) => {
   try {
     const allMedicines = await medicineService.getAllMedicines();
-    // console.log("Document written with ID: ", newschedule);
+
     res.status(201).json(allMedicines)
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -23,7 +23,6 @@ const update = async (req, res, next) => {
   try {
     const id = req.params.id
     const newMedicine = await medicineService.update(req.body, id);
-    // console.log("Document written with ID: ", newSpecialist);
     res.status(201).json(newMedicine)
   } catch (e) {
     console.error("Error adding document: ", e);

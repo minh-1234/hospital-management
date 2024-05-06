@@ -3,7 +3,7 @@ import { scheduleService } from '../service/scheduleService.js'
 
 const createNew = async (req, res, next) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const specialistId = req.params.specialistId
     const newschedule = await scheduleService.createNew(req.body, specialistId);
     // console.log("Document written with ID: ", newschedule);
@@ -14,7 +14,7 @@ const createNew = async (req, res, next) => {
 }
 const getAllSchedule = async (req, res, next) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const specialistId = req.params.specialistId
     const allSchedule = await scheduleService.getAllSchedule(specialistId);
     // console.log("Document written with ID: ", newschedule);
@@ -29,7 +29,7 @@ const update = async (req, res, next) => {
     const id = req.params.id
     const specialistId = req.params.specialistId
     const newSpecialistSchedule = await scheduleService.update(req.body, id, specialistId);
-    // console.log("Document written with ID: ", newSpecialist);
+
     res.status(201).json(newSpecialistSchedule)
   } catch (e) {
     console.error("Error adding document: ", e);

@@ -65,7 +65,6 @@ const getAllEquipments = async () => {
 }
 const findOneById = async (id) => {
   try {
-    // const specialistDocs = await getDocs(collection(db, 'specialists'));
     const equipment = doc(db, 'equipments', id);
     return equipment
   } catch (error) {
@@ -95,8 +94,6 @@ const deleteManyItems = async (arrayItems) => {
 
       await deleteDoc(doc(db, 'equipments', _id))
     })
-    // const docRef = await updateDoc(scheduleDoc, updateData);
-    // return docRef
   } catch (e) {
     console.error(e)
   }

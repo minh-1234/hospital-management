@@ -28,8 +28,6 @@ const validObjectValueSignIn = async (data) => {
 const getAllUsers = async () => {
   try {
     const usersList = [];
-    // const queryDocs = query(scheduleDocs, orderBy("day", "asc"))
-
     const usersDocs = await getDocs(collection(db, 'users'));
     usersDocs.forEach(data => {
       const validData = {

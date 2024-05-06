@@ -79,8 +79,6 @@ const deleteManyItems = async (arrayItems, specialistId) => {
     arrayItems.forEach(async (_id) => {
       await deleteDoc(doc(specialistDocContain, _id))
     })
-    // const docRef = await updateDoc(scheduleDoc, updateData);
-    // return docRef
   } catch (e) {
     console.error(e)
   }
@@ -89,8 +87,6 @@ const deleteAnItem = async (id, specialistId) => {
   try {
     const specialistDocContain = collection(db, 'specialists', specialistId, 'schedules')
     const schedule = await deleteDoc(doc(specialistDocContain, id))
-
-    // const docRef = await updateDoc(scheduleDoc, updateData);
     return schedule
   } catch (e) {
     console.error(e)

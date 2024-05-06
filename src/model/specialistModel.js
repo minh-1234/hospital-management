@@ -66,7 +66,6 @@ const update = async (updateData, id) => {
 const getAllSpecialists = async (position, specialty) => {
   try {
     const specialistsList = [];
-    // const queryDocs = query(scheduleDocs, orderBy("day", "asc"))s
     let specialistsDocs;
     if (position && specialty) {
       const specialistPositionCollection = query(collection(db, 'specialists'), where("position", "==", position), where("specialty", "==", specialty))
@@ -83,8 +82,6 @@ const getAllSpecialists = async (position, specialty) => {
     else {
       specialistsDocs = await getDocs(collection(db, 'specialists'))
     }
-
-    //const specialistsDocs = await getDocs(specialistPositionCollection)
     specialistsDocs.forEach(data => {
       const validData = {
         ...data.data(),
@@ -100,7 +97,6 @@ const getAllSpecialists = async (position, specialty) => {
 }
 const findOneById = async (id) => {
   try {
-    // const specialistDocs = await getDocs(collection(db, 'specialists'));
     const specialistDoc = doc(db, 'specialists', id)
     const specialist = await getDoc(specialistDoc)
     return specialist.data()
@@ -131,8 +127,6 @@ const deleteManyItems = async (arrayItems) => {
 
       await deleteDoc(doc(db, 'specialists', _id))
     })
-    // const docRef = await updateDoc(scheduleDoc, updateData);
-    // return docRef
   } catch (e) {
     console.error(e)
   }

@@ -2,7 +2,7 @@ import { userModel } from '../model/userModel.js'
 
 const signUp = async (reqBody) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const newUser = await userModel.signUp(reqBody);
     return newUser
   } catch (e) {
@@ -11,7 +11,7 @@ const signUp = async (reqBody) => {
 }
 const signIn = async (reqBody) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const loginUser = await userModel.signIn(reqBody);
     const { password, ...dataUser } = loginUser
     return dataUser

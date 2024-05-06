@@ -10,8 +10,7 @@ const TREAT_PROCESS_COLLECTION_SCHEMA = Joi.object({
   timeBegin: Joi.string().regex(TIME_RULE).required().trim().strict(),
   timeEnd: Joi.string().regex(TIME_RULE).required().trim().strict(),
   room: Joi.string().min(3).max(256).trim().strict(),
-  // medicalStaffID: Joi.string().required().pattern(_ID_RULE).message(_ID_RULE_MESSAGE),
-  medicalStaffID: Joi.string().required(),
+  medicalStaffID: Joi.string().required().pattern(_ID_RULE).message(_ID_RULE_MESSAGE),
   description: Joi.string().min(3).max(2000).trim().strict()
 })
 // const INVALID_DATA_UPDATE = ['_id', 'createdAt']
@@ -30,7 +29,6 @@ const createNew = async (Data, patientId) => {
 }
 const findOneById = async (id, patientId) => {
   try {
-    // const patientDocs = await getDocs(collection(db, 'patients'));
     const treatProcess = doc(db, "patients", patientId, 'treatProcess', id);
     return treatProcess
   } catch (error) {
@@ -40,20 +38,6 @@ const findOneById = async (id, patientId) => {
 const getAllTreatProcess = async (patientId) => {
   try {
     const treatProcesssList = [];
-    // const a = query(collection(db, 'patients'), limit(1000))
-    // const b = await getDocs(a)
-    // console.log(b.docs.length)
-    // if (page > 1) {
-    //   const queryDocs = query(collection(db, 'patients'), orderBy("fullname"), limit((page - 1) * PAGE_SIZE))
-    //   const skipDataSnapshot = await getDocs(queryDocs)
-    //   const skipData = skipDataSnapshot.docs[skipDataSnapshot.docs.length - 1]
-    //   const data = query(collection(db, 'patients'), orderBy("fullname"), startAfter(skipData), limit(PAGE_SIZE))
-    //   patientDocs = await getDocs(data);
-    // }
-    // else {
-    //   const data = query(collection(db, 'patients'), orderBy("fullname"), startAfter(0), limit(1))
-    //   patientDocs = await getDocs(data);
-    // }
     const treatProcessDocs = await getDocs(collection(db, "patients", patientId, "treatProcess"))
 
     treatProcessDocs.forEach(data => {
@@ -95,8 +79,6 @@ const deleteManyItems = async (arrayItems, patientId) => {
     arrayItems.forEach(async (_id) => {
       await deleteDoc(doc(db, 'patients', patientId, "treatProcess", _id))
     })
-    // const docRef = await updateDoc(scheduleDoc, updateData);
-    // return docRef
   } catch (e) {
     console.error(e)
   }

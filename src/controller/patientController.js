@@ -2,7 +2,7 @@
 import { patientService } from '../service/patientService.js'
 const createNew = async (req, res, next) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const newPatient = await patientService.createNew(req.body);
     res.status(201).json(newPatient)
   } catch (e) {
@@ -13,7 +13,7 @@ const createNew = async (req, res, next) => {
 
 const getAllPatients = async (req, res, next) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     // const page = req.query.page
     const allPatients = await patientService.getAllPatients();
     // console.log("Document written with ID: ", newschedule);
@@ -24,7 +24,7 @@ const getAllPatients = async (req, res, next) => {
 }
 const findOneById = async (req, res, next) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     // const page = req.query.page
     const idPatient = req.params.id
     const patient = await patientService.findOneById(idPatient);

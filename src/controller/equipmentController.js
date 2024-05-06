@@ -3,9 +3,9 @@ import { equipmentService } from '../service/equipmentService.js'
 
 const createNew = async (req, res, next) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const newEquipment = await equipmentService.createNew(req.body);
-    // console.log("Document written with ID: ", newSpecialist);
+
     res.status(201).json({ Result: 'Đã tạo thành công' })
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -16,7 +16,7 @@ const update = async (req, res, next) => {
   try {
     const id = req.params.id
     const newEquipment = await equipmentService.update(req.body, id);
-    // console.log("Document written with ID: ", newEquipment);
+
     res.status(201).json(newEquipment)
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -25,9 +25,9 @@ const update = async (req, res, next) => {
 
 const getAllEquipments = async (req, res, next) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const allEquipments = await equipmentService.getAllEquipments();
-    // console.log("Document written with ID: ", newschedule);
+
     res.status(201).json(allEquipments)
   } catch (e) {
     console.error("Error adding document: ", e);

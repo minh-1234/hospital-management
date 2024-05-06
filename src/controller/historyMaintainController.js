@@ -3,10 +3,10 @@ import { historyMaintainService } from '../service/historyMaintainService.js'
 
 const createNew = async (req, res, next) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const equipmentId = req.params.equipmentId
     const newsSchedule = await historyMaintainService.createNew(req.body, equipmentId);
-    // console.log("Document written with ID: ", newschedule);
+
     res.status(201).json({ Result: 'Đã tạo lịch bảo dưỡng thành công thành công' })
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -14,7 +14,7 @@ const createNew = async (req, res, next) => {
 }
 const getAllSchedule = async (req, res, next) => {
   try {
-    // const docRef = await addDoc(collection(db, "users"), req.body);
+
     const equipmentId = req.params.equipmentId
     const allSchedule = await historyMaintainService.getAllSchedule(equipmentId);
     // console.log("Document written with ID: ", newschedule);
@@ -29,7 +29,7 @@ const update = async (req, res, next) => {
     const id = req.params.id
     const equipmentId = req.params.equipmentId
     const newEquipmentSchedule = await historyMaintainService.update(req.body, id, equipmentId);
-    // console.log("Document written with ID: ", newEquipment);
+
     res.status(201).json(newEquipmentSchedule)
   } catch (e) {
     console.error("Error adding document: ", e);

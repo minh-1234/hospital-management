@@ -30,7 +30,6 @@ const createNew = async (Data) => {
 }
 const findOneById = async (id) => {
   try {
-    // const medicineDocs = await getDocs(collection(db, 'medicines'));
     const medicine = doc(db, 'medicines', id);
     return medicine
   } catch (error) {
@@ -40,7 +39,6 @@ const findOneById = async (id) => {
 const getAllMedicines = async () => {
   try {
     const medicinesList = [];
-    // const queryDocs = query(scheduleDocs, orderBy("day", "asc"))
 
     const medicineDocs = await getDocs(collection(db, 'medicines'));
     medicineDocs.forEach(data => {
@@ -71,7 +69,7 @@ const deleteAnItem = async (id) => {
   try {
     const medicineCol = collection(db, 'medicines')
     const deleteMedicine = await deleteDoc(doc(medicineCol, id))
-    // const docRef = await updateDoc(scheduleDoc, updateData);
+
     return deleteMedicine
   } catch (e) {
     console.error(e)
@@ -82,7 +80,7 @@ const deleteManyItems = async (arrayItems) => {
     arrayItems.forEach(async (_id) => {
       await deleteDoc(doc(db, 'medicines', _id))
     })
-    // const docRef = await updateDoc(scheduleDoc, updateData);
+
     // return docRef
   } catch (e) {
     console.error(e)
