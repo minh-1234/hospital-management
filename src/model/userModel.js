@@ -28,6 +28,8 @@ const validObjectValueSignIn = async (data) => {
 const getAllUsers = async () => {
   try {
     const usersList = [];
+    // const queryDocs = query(scheduleDocs, orderBy("day", "asc"))
+
     const usersDocs = await getDocs(collection(db, 'users'));
     usersDocs.forEach(data => {
       const validData = {
@@ -63,17 +65,7 @@ const signUp = async (Data) => {
     console.error("Error adding document: ", e);
   }
 }
-// const update = async (updateData, id) => {
-//   try {
-//     const specialistDoc = doc(db, 'specialists', id);
-//     const docRef = await updateDoc(specialistDoc, updateData);
-//     return docRef
-//   } catch (e) {
-//     const errorMessage = new Error(error).message
-//     const customError = new customApiErrorModule.CustomAPIError(422, errorMessage)
-//     next(customError)
-//   }
-// }
+
 
 const findOneById = async (id) => {
   try {
@@ -83,6 +75,14 @@ const findOneById = async (id) => {
   } catch (error) {
     throw new Error(error)
   }
+}
+const generateAcessToken = (data) => {
+  const token = jwt.sign(data, env.JWT_ACCESS_PRIVATE_KEY, { expiresIn: "1m" })
+  return token
+}
+const generateRefreshToken = (data) => {
+  const token = jwt.sign(data, env.JWT_REFRESH_PRIVATE_KEY, { expiresIn: "365d" })
+  return token
 }
 const signIn = async (Data) => {
   try {
@@ -97,15 +97,16 @@ const signIn = async (Data) => {
     if (!compareResule) {
       return { message: "Mật khẩu không hợp lệ !" }
     }
-    const token = jwt.sign({ id: targetUser[0].id }, env.JWT_PRIVATE_KEY, { expiresIn: "1h" })
-    return { ...targetUser[0], token: token }
+    const access_token = generateAcessToken({ id: targetUser[0].id })
+    const refresh_token = generateRefreshToken({ id: targetUser[0].id })
+    return { ...targetUser[0], access_token: access_token, refresh_token: refresh_token }
   } catch (e) {
     console.error("Error adding document: ", e);
   }
 }
 const getUser = async (cookie) => {
   try {
-    const cookieVarified = jwt.verify(cookie, env.JWT_PRIVATE_KEY)
+    const cookieVarified = jwt.verify(cookie, env.JWT_ACCESS_PRIVATE_KEY)
     if (!cookieVarified) {
       return { message: "token is undefined" }
     }
@@ -126,5 +127,6 @@ export const userModel = {
   getAllUsers,
   findOneById,
   signIn,
-  getUser
+  getUser,
+  generateAcessToken
 }

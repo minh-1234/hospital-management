@@ -1,10 +1,9 @@
 
 import { userService } from '../service/userService.js'
-
-
+import { userModel } from '../model/userModel.js'
 const signUp = async (req, res, next) => {
   try {
-
+    // const docRef = await addDoc(collection(db, "users"), req.body);
     const newUser = await userService.signUp(req.body);
     res.status(201).send(newUser)
   } catch (e) {
@@ -14,36 +13,52 @@ const signUp = async (req, res, next) => {
 }
 const signIn = async (req, res, next) => {
   try {
-
+    // const docRef = await addDoc(collection(db, "users"), req.body);
     const loginUser = await userService.signIn(req.body);
-    res.cookie("token", loginUser.token, {
+
+    await res.cookie("access_token", loginUser.access_token, {
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-      sameSite: "none",
+      maxAge: 60 * 1000,
+      sameSite: "None",
       secure: true
     })
-    const { token, ...result } = loginUser
+    await res.cookie("refresh_token", loginUser.refresh_token, {
+      httpOnly: true,
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      sameSite: "None",
+      secure: true
+    })
+    //req.cookies[token] = loginUser.token
+    const { access_token, refresh_token, ...result } = loginUser
     res.status(201).json(result)
   } catch (e) {
     console.error("Error adding document: ", e);
   }
 
 }
-// const update = async (req, res, next) => {
-//   try {
-//     const id = req.params.id
-//     const newMedicine = await medicineService.update(req.body, id);
-//     // console.log("Document written with ID: ", newSpecialist);
-//     res.status(201).json(newMedicine)
-//   } catch (e) {
-//     console.error("Error adding document: ", e);
-//   }
-// }
+
 const getUser = async (req, res, next) => {
   try {
-    const cookie = req.cookies["token"]
-    if (!cookie) {
-      res.status(200).send(null)
+    const cookie = req.cookies["access_token"]
+    const resfresh_cookie = req.cookies["refresh_token"]
+    if (!cookie && !resfresh_cookie) {
+      res.status(404).json("No token is Exist !")
+    }
+    else if (!cookie) {
+      const access_cookie = await userService.getUser(resfresh_cookie)
+        .then((results) => {
+          const access_token = userModel.generateAcessToken({ id: results.id })
+          res.cookie("access_token", access_token, {
+            httpOnly: true,
+            maxAge: 60 * 1000,
+            sameSite: "None",
+            secure: true
+          })
+          return access_token
+        })
+
+      const User = await userService.getUser(access_cookie)
+      res.status(200).json(User)
     }
     else {
       const targetUser = await userService.getUser(cookie)
@@ -51,7 +66,7 @@ const getUser = async (req, res, next) => {
     }
 
   } catch (e) {
-    res.cookie("token", "", {
+    res.cookie("acess_token", "", {
       httpOnly: true,
       secure: true,
       sameSite: "none",
@@ -62,7 +77,13 @@ const getUser = async (req, res, next) => {
 }
 const logOut = async (req, res, next) => {
   try {
-    res.cookie("token", "", {
+    res.cookie("access_token", "", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      expires: new Date(1)
+    });
+    res.cookie("refresh_token", "", {
       httpOnly: true,
       secure: true,
       sameSite: "none",
